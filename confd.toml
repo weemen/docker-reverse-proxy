@@ -1,0 +1,8 @@
+backend = "etcd"
+client_cakeys = "/certificates/coreos_ca.pem"
+client_cert = "/certificates/coroes_cert.pem"
+client_key = "/certificates/coreos_key.pem"
+nodes = [
+  "http://172.17.42.1:4001",
+]
+scheme = "https"

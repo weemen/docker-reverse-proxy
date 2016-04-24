@@ -1,0 +1,36 @@
+[Unit]
+Description=Nginx reverse proxy for web server backends
+
+# Requirements
+Requires=etcd.service
+Requires=docker.service
+
+# Dependency ordering
+After=etcd.service
+After=docker.service
+
+[Service]
+# Let the process take awhile to start up (for first run Docker containers)
+TimeoutStartSec=0
+
+# Change killmode from "control-group" to "none" to let Docker remove
+# work correctly.
+KillMode=none
+
+# Get CoreOS environmental variables
+EnvironmentFile=/etc/environment
+
+# Pre-start and Start
+## Directives with "=-" are allowed to fail without consequence
+ExecStartPre=-/usr/bin/docker kill reverse_proxy
+ExecStartPre=-/usr/bin/docker rm reverse_proxy
+ExecStartPre=/usr/bin/docker pull localhost:5000/weemen/reverse_proxy
+ExecStart=/usr/bin/docker run --name reverse_proxy -p ${COREOS_PUBLIC_IPV4}:80:80 \
+localhost:5000/weemen/reverse_proxy /usr/local/bin/confd-watch
+
+# Stop
+ExecStop=/usr/bin/docker stop nginx_lb
+
+[X-Fleet]
+Conflicts=reverse_proxy.service
+Conflicts=apache@*.service
