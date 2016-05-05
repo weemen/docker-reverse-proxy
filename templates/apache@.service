@@ -26,9 +26,9 @@ EnvironmentFile=/etc/environment
 ## Directives with "=-" are allowed to fail without consequence
 ExecStartPre=-/usr/bin/docker kill apache.%i
 ExecStartPre=-/usr/bin/docker rm apache.%i
-ExecStartPre=/usr/bin/docker pull localhost:5000/weemen/apache
+ExecStartPre=/usr/bin/docker pull sylvana.leonweemen.nl:5000/wemeen/apache_coreos
 ExecStart=/usr/bin/docker run --name apache.%i -p ${COREOS_PRIVATE_IPV4}:%i:80 \
-localhost:5000/weemen/apache /usr/sbin/apache2ctl -D FOREGROUND
+sylvana.leonweemen.nl:5000/wemeen/apache_coreos /usr/sbin/apache2ctl -D FOREGROUND
 
 # Stop
 ExecStop=/usr/bin/docker stop apache.%i
