@@ -2,11 +2,11 @@
 Description=Nginx reverse proxy for web server backends
 
 # Requirements
-Requires=etcd.service
+Requires=etcd2.service
 Requires=docker.service
 
 # Dependency ordering
-After=etcd.service
+After=etcd2.service
 After=docker.service
 
 [Service]

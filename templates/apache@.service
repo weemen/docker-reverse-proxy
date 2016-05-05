@@ -2,12 +2,12 @@
 Description=Apache web server service on port %i
 
 # Requirements
-Requires=etcd.service
+Requires=etcd2.service
 Requires=docker.service
 Requires=apache-discovery@%i.service
 
 # Dependency ordering
-After=etcd.service
+After=etcd2.service
 After=docker.service
 Before=apache-discovery@%i.service
 

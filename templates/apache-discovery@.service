@@ -2,11 +2,11 @@
 Description=Apache web server on port %i etcd registration
 
 # Requirements
-Requires=etcd.service
+Requires=etcd2.service
 Requires=apache@%i.service
 
 # Dependency ordering and binding
-After=etcd.service
+After=etcd2.service
 After=apache@%i.service
 BindsTo=apache@%i.service
 
