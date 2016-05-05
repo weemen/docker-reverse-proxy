@@ -21,15 +21,15 @@ ExecStart=/bin/bash -c '\
   while true; do \
     curl -f ${COREOS_PRIVATE_IPV4}:%i; \
     if [ $? -eq 0 ]; then \
-      etcdctl set /services/apache/${COREOS_PRIVATE_IPV4} \'${COREOS_PRIVATE_IPV4}:%i\' --ttl 30; \
+      /opt/bin/etcd-docker set /services/apache/${COREOS_PRIVATE_IPV4}-%i \'${COREOS_PRIVATE_IPV4}:%i\' --ttl 30; \
     else \
-      etcdctl rm /services/apache/${COREOS_PRIVATE_IPV4}; \
+      /opt/bin/etcd-docker rm /services/apache/${COREOS_PRIVATE_IPV4}-%i; \
     fi; \
     sleep 20; \
   done'
 
 # Stop
-ExecStop=/usr/bin/etcdctl rm /services/apache/${COREOS_PRIVATE_IPV4}
+ExecStop=/opt/bin/etcd-docker rm /services/apache/${COREOS_PRIVATE_IPV4}-%i
 
 [X-Fleet]
 # Schedule on the same machine as the associated Apache service
